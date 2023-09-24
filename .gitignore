@@ -11,3 +11,6 @@ CTestTestfile.cmake
 _deps
 lib
 /input.txt
+/lab1/lab1
+/lab1/child
+/tests/lab1_test
