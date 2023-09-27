@@ -1,16 +1,16 @@
 #include <parent.hpp>
 
 
-void parentProcess(std::string_view pathToChild, std::istream & streamIn, std::ostream & streamOut ){
+void ParentProcess(std::string_view pathToChild, std::istream & streamIn, std::ostream & streamOut ){
     std::cin.rdbuf(streamIn.rdbuf());
     std::cout.rdbuf(streamOut.rdbuf());
     
     int CHILD_STDOUT[2];
-    createPipe(CHILD_STDOUT);
+    CreatePipe(CHILD_STDOUT);
 
     int CHILD_STDIN[2];
-    createPipe(CHILD_STDIN);
-    pid_t pid = createChild();
+    CreatePipe(CHILD_STDIN);
+    pid_t pid = CreateChild();
     
     
 
@@ -29,7 +29,7 @@ void parentProcess(std::string_view pathToChild, std::istream & streamIn, std::o
             exit(EXIT_FAILURE);
         }   
         
-        exec(std::string(pathToChild));
+        Exec(std::string(pathToChild));
     }
     else{
         close(CHILD_STDIN[READ_END]);
@@ -46,7 +46,7 @@ void parentProcess(std::string_view pathToChild, std::istream & streamIn, std::o
 
         wait(NULL);
         
-        std::stringstream output = read_from_pipe(CHILD_STDOUT[READ_END]);
+        std::stringstream output = ReadFromPipe(CHILD_STDOUT[READ_END]);
 
         while(std::getline(output, line)){
             std::cout << line << std::endl;
@@ -54,7 +54,7 @@ void parentProcess(std::string_view pathToChild, std::istream & streamIn, std::o
 
         
         close(CHILD_STDOUT[READ_END]);
-        //exit(EXIT_SUCCESS);
+        //exit(EXIT_SUCCESS); успешный выход из процесса будет осуществлять в main.cpp
 
     }
 }

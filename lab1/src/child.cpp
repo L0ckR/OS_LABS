@@ -4,9 +4,9 @@
 int main(){
 
     int fd[2];
-    createPipe(fd);
+    CreatePipe(fd);
 
-    pid_t pid = createChild();
+    pid_t pid = CreateChild();
     
 
     if (pid == pid_t(0)){
@@ -29,7 +29,7 @@ int main(){
         wait(NULL);
 
 
-        std::stringstream output = read_from_pipe(fd[READ_END]);
+        std::stringstream output = ReadFromPipe(fd[READ_END]);
 
         std::string line;
 

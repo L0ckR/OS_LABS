@@ -36,7 +36,7 @@ TEST(FirstLabTests, EmptyTest) {
 
 
 
-    parentProcess("../lab1/child", inFile, outFile);
+    ParentProcess("../lab1/child", inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
@@ -96,7 +96,7 @@ TEST(FirstLabTests, SpacesTest) {
 
 
 
-    parentProcess("../lab1/child", inFile, outFile);
+    ParentProcess("../lab1/child", inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
@@ -155,7 +155,7 @@ TEST(FirstLabTests, OneCharTest) {
 
 
 
-    parentProcess("../lab1/child", inFile, outFile);
+    ParentProcess("../lab1/child", inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
@@ -236,7 +236,7 @@ TEST(FirstLabTests, ComplexTest) {
 
 
 
-    parentProcess("../lab1/child", inFile, outFile);
+    ParentProcess("../lab1/child", inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
