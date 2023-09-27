@@ -47,21 +47,3 @@ int main(){
         
     }
 }
-
-// #include <utils.hpp>
-
-
-// int main(){
-//     std::string line;
-//     while(std::getline(std::cin, line)){
-//         std::cout << line<< std::endl;
-//     }
-//     // int fd[2];
-//     // createPipe(fd);
-
-//     // pid_t pid = createChild();
-    
-
-//     // if (pid == pid_t(0)){
-//     //     close(fd[READ_END]);
-// }

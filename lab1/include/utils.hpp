@@ -1,7 +1,6 @@
 #ifndef INC_1_UTILS_H
 #define INC_1_UTILS_H
 
-// #include <signal.h>
 #include <sstream>
 #include <algorithm>
 #include <sys/wait.h>
@@ -21,7 +20,6 @@ pid_t createChild();
 void exec(std::string pathToChild);
 std::stringstream read_from_pipe(int file_descriptor);
 bool BothAreSpaces(char lhs, char rhs);
-// void killwait(pid_t pid, int sig);
 
 
 #endif //INC_1_UTILS_H

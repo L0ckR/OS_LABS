@@ -30,8 +30,6 @@ std::stringstream read_from_pipe (int file_descriptor)
 {
   __gnu_cxx::stdio_filebuf<char> filebuf(file_descriptor,
                                          std::ios_base::in);
-  // std::istream stream(&filebuf);
-  //  You can also do:
 
 
   std::stringstream stream;
@@ -40,19 +38,6 @@ std::stringstream read_from_pipe (int file_descriptor)
   return stream;
 }
 
-// void killwait(pid_t pid, int sig) {
-//     kill(pid, sig);
-
-//     int status;
-//     waitpid(pid, &status, WUNTRACED | WCONTINUED);
-
-//     if (WIFSTOPPED(status))
-//         printf("P: C(%d) STOPPED!\n", pid);
-//     if (WIFCONTINUED(status))
-//         printf("P: C(%d) CONTINUED!\n", pid);
-//     if (WIFSIGNALED(status) && SIGKILL == WTERMSIG(status))
-//         printf("P: C(%d) SUCCESSFULLY KILLED!\n", pid);
-// }
 
 bool BothAreSpaces(char lhs, char rhs){ 
             return (lhs == rhs) && (lhs == ' '); 
