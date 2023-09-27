@@ -1,63 +1,84 @@
 #include <gtest/gtest.h>
 
-#include <array>
+#include <parent.hpp>
+
 #include <filesystem>
 #include <fstream>
 #include <memory>
 
 namespace fs = std::filesystem;
 
-extern "C" {
-    #include <parent.h>
-}
 
 TEST(FirstLabTests, SimpleTest) {
-    const char* fileWithInput = "input.txt";
-    const char* fileWithOutput = "output.txt";
+    std::string fileWithInput = "input.txt";
+    std::string fileWithOutput = "output.txt";
 
-    constexpr int inputSize = 4;
-
-    std::array<const char*, inputSize> input = {
-            "1 2 3 4",
-            "0 3 2",
-            "-10 -10 -10",
-            "1337"
+    std::vector<std::string> input = {
+            "ALLAH AKBAR    !!!!",
+            "CAN U  F   EEL                 MY heArt   ??",
+            "SOmEboDy onCE    tOlD Me...   ",
+            "1337 )))   999  898re3  OOO ppp   OSIIII SOsiii",
+            "lab is dddone",
+            "lva OOPPPP",
+            " ",
+            "",
+            "liue Hi uHIUHi h#IUD H",
+            "lkH WDWi gwd ",
+            "brgtrfsfs a J wfe f a WHWDu 3d3d  ",
+            " ef ef se rf3 ra d",
+            " f 3  fkjh iu2 7      8e7 3e i g328 72E"
     };
 
-    std::array<int, inputSize> expectedOutput = {
-            10, 5, -30, 1337
+    std::vector<std::string> expectedOutput = {
+            "allah akbar !!!!",
+            "can u f eel my heart ??",
+            "somebody once told me... ",
+            "1337 ))) 999 898re3 ooo ppp osiiii sosiii",
+            "lab is dddone",
+            "lva oopppp",
+            " ",
+            "",
+            "liue hi uhiuhi h#iud h",
+            "lkh wdwi gwd ",
+            "brgtrfsfs a j wfe f a whwdu 3d3d ",
+            " ef ef se rf3 ra d",
+            " f 3 fkjh iu2 7 8e7 3e i g328 72e",
     };
 
-    {
-        auto inFile = std::ofstream(fileWithInput);
+    auto toInputFile = std::ofstream(fileWithInput);
 
-        inFile << fileWithOutput << '\n';
-
-        for(const auto& line : input) {
-            inFile<< line << '\n';
-        }
+    for(std::string line : input) {
+        toInputFile << line + '\n';
     }
+    toInputFile.close();
 
-    auto deleter = [](FILE* file) {
-        fclose(file);
-    };
 
-    std::unique_ptr<FILE, decltype(deleter)> inFile(fopen(fileWithInput, "r"), deleter);
+    std::ifstream inFile;
+    inFile.open(fileWithInput);
 
-    ParentRoutine(getenv("PATH_TO_CHILD"), inFile.get());
+    auto outFile = std::ofstream(fileWithOutput);
 
-    auto outFile = std::ifstream(fileWithOutput);
+
+
+    parentProcess("../lab1/child", inFile, outFile);
+
 
     ASSERT_TRUE(outFile.good());
 
-    int result;
+    inFile.close();
+    outFile.close();
+    
+    auto fromOutFile = std::ifstream(fileWithOutput);
 
-    for(int i : expectedOutput) {
-        outFile >> result;
-        EXPECT_EQ(result, i);
+    std::string result;
+
+    for(std::string expectation : expectedOutput) {
+        std::getline(fromOutFile, result);
+        EXPECT_EQ(result, expectation);
     }
+    fromOutFile.close();
 
-    auto removeIfExists = [](const char* path) {
+    auto removeIfExists = [](std::string path) {
         if(fs::exists(path)) {
             fs::remove(path);
         }

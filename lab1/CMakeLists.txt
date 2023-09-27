@@ -1,15 +1,11 @@
 set(CMAKE_C_STANDARD 11)
 
-add_executable(lab1
-        main.c
-        src/parent.c
-        include/utils.h src/utils.c)
+
+add_executable(lab1 main.cpp src/parent.cpp src/utils.cpp include/utils.hpp)
 
 target_include_directories(lab1 PRIVATE include)
 
-add_executable(child
-        src/child.c
-        include/utils.h src/utils.c)
+add_executable(child src/child.cpp src/utils.cpp include/utils.hpp)
 
 target_include_directories(child PRIVATE include)
 
