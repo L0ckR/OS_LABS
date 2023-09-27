@@ -29,7 +29,7 @@ void ParentProcess(std::string_view pathToChild, std::istream & streamIn, std::o
             exit(EXIT_FAILURE);
         }   
         
-        Exec(std::string(pathToChild));
+        Exec(pathToChild);
     }
     else{
         close(CHILD_STDIN[READ_END]);

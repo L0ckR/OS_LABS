@@ -18,8 +18,8 @@ void CreatePipe(int pipeFd[2]){
     }
 }
 
-void Exec(std::string pathToChild){
-    if (execl(pathToChild.c_str(), "child", NULL) == -1) {
+void Exec(std::string_view pathToChild){
+    if (execl(std::string(pathToChild).c_str(), "child", NULL) == -1) {
         perror("Failed to exec.");
         exit(EXIT_FAILURE);
     }
