@@ -35,8 +35,3 @@ std::stringstream ReadFromPipe (int file_descriptor)
   stream << &filebuf;
   return stream;
 }
-
-
-bool BothAreSpaces(char lhs, char rhs){ 
-            return (lhs == rhs) && (lhs == ' '); 
-};

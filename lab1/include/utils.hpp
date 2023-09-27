@@ -21,7 +21,6 @@ void                CreatePipe(int pipeFd[2]);
 pid_t               CreateChild();
 void                Exec(std::string_view pathToChild);
 std::stringstream   ReadFromPipe(int file_descriptor);
-bool                BothAreSpaces(char lhs, char rhs);
 
 
 #endif //INC_1_UTILS_H

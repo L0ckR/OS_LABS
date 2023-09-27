@@ -36,7 +36,7 @@ TEST(FirstLabTests, EmptyTest) {
 
 
 
-    ParentProcess(getenv("PATH_TO_CHILD"), inFile, outFile);
+    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
@@ -96,7 +96,7 @@ TEST(FirstLabTests, SpacesTest) {
 
 
 
-    ParentProcess(getenv("PATH_TO_CHILD"), inFile, outFile);
+    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
@@ -155,7 +155,7 @@ TEST(FirstLabTests, OneCharTest) {
 
 
 
-    ParentProcess(getenv("PATH_TO_CHILD"), inFile, outFile);
+    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
@@ -236,7 +236,7 @@ TEST(FirstLabTests, ComplexTest) {
 
 
 
-    ParentProcess(getenv("PATH_TO_CHILD"), inFile, outFile);
+    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
 
 
     ASSERT_TRUE(outFile.good());
