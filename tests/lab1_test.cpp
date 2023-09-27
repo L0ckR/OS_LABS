@@ -2,17 +2,37 @@
 
 #include <parent.hpp>
 
-#include <filesystem>
-#include <fstream>
 #include <memory>
+#include <numeric>
 
-namespace fs = std::filesystem;
+
+struct BindTwoStrings
+{
+    std::string operator()(const std::string& s1, const std::string& s2) const {
+        return s1.empty() ? s2 : s1 + "\n" + s2;
+    }    
+};
+
+void TestParent(std::vector<std::string> input, std::vector<std::string> expectedOutput){
+
+    std::stringstream inFile(std::accumulate(input.begin(), input.end(), std::string(""), BindTwoStrings()));
+
+    std::string out = "";
+
+    std::stringstream outFile(out);
+
+    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
+
+    for(std::string expectation : expectedOutput) {
+        std::string result;
+        std::getline(outFile, result);
+        EXPECT_EQ(result, expectation);
+    }
+
+}
 
 
 TEST(FirstLabTests, EmptyTest) {
-    std::string fileWithInput = "input.txt";
-    std::string fileWithOutput = "output.txt";
-
     std::vector<std::string> input = {
             ""
     };
@@ -20,55 +40,11 @@ TEST(FirstLabTests, EmptyTest) {
     std::vector<std::string> expectedOutput = {
             ""
     };
-
-    auto toInputFile = std::ofstream(fileWithInput);
-
-    for(std::string line : input) {
-        toInputFile << line + '\n';
-    }
-    toInputFile.close();
-
-
-    std::ifstream inFile;
-    inFile.open(fileWithInput);
-
-    auto outFile = std::ofstream(fileWithOutput);
-
-
-
-    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
-
-
-    ASSERT_TRUE(outFile.good());
-
-    inFile.close();
-    outFile.close();
-    
-    auto fromOutFile = std::ifstream(fileWithOutput);
-
-    std::string result;
-
-    for(std::string expectation : expectedOutput) {
-        std::getline(fromOutFile, result);
-        EXPECT_EQ(result, expectation);
-    }
-    fromOutFile.close();
-
-    auto removeIfExists = [](std::string path) {
-        if(fs::exists(path)) {
-            fs::remove(path);
-        }
-    };
-
-    removeIfExists(fileWithInput);
-    removeIfExists(fileWithOutput);
+    TestParent(input, expectedOutput);
 }
 
 
 TEST(FirstLabTests, SpacesTest) {
-    std::string fileWithInput = "input.txt";
-    std::string fileWithOutput = "output.txt";
-
     std::vector<std::string> input = {
             "                ",
             "          ",
@@ -80,54 +56,10 @@ TEST(FirstLabTests, SpacesTest) {
             " ",
             " "
     };
-
-    auto toInputFile = std::ofstream(fileWithInput);
-
-    for(std::string line : input) {
-        toInputFile << line + '\n';
-    }
-    toInputFile.close();
-
-
-    std::ifstream inFile;
-    inFile.open(fileWithInput);
-
-    auto outFile = std::ofstream(fileWithOutput);
-
-
-
-    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
-
-
-    ASSERT_TRUE(outFile.good());
-
-    inFile.close();
-    outFile.close();
-    
-    auto fromOutFile = std::ifstream(fileWithOutput);
-
-    std::string result;
-
-    for(std::string expectation : expectedOutput) {
-        std::getline(fromOutFile, result);
-        EXPECT_EQ(result, expectation);
-    }
-    fromOutFile.close();
-
-    auto removeIfExists = [](std::string path) {
-        if(fs::exists(path)) {
-            fs::remove(path);
-        }
-    };
-
-    removeIfExists(fileWithInput);
-    removeIfExists(fileWithOutput);
+    TestParent(input, expectedOutput);
 }
 
 TEST(FirstLabTests, OneCharTest) {
-    std::string fileWithInput = "input.txt";
-    std::string fileWithOutput = "output.txt";
-
     std::vector<std::string> input = {
             "                H",
             "      H    ",
@@ -139,56 +71,12 @@ TEST(FirstLabTests, OneCharTest) {
             " h ",
             "h "
     };
-
-    auto toInputFile = std::ofstream(fileWithInput);
-
-    for(std::string line : input) {
-        toInputFile << line + '\n';
-    }
-    toInputFile.close();
-
-
-    std::ifstream inFile;
-    inFile.open(fileWithInput);
-
-    auto outFile = std::ofstream(fileWithOutput);
-
-
-
-    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
-
-
-    ASSERT_TRUE(outFile.good());
-
-    inFile.close();
-    outFile.close();
-    
-    auto fromOutFile = std::ifstream(fileWithOutput);
-
-    std::string result;
-
-    for(std::string expectation : expectedOutput) {
-        std::getline(fromOutFile, result);
-        EXPECT_EQ(result, expectation);
-    }
-    fromOutFile.close();
-
-    auto removeIfExists = [](std::string path) {
-        if(fs::exists(path)) {
-            fs::remove(path);
-        }
-    };
-
-    removeIfExists(fileWithInput);
-    removeIfExists(fileWithOutput);
+    TestParent(input, expectedOutput);
 }
 
 
 
 TEST(FirstLabTests, ComplexTest) {
-    std::string fileWithInput = "input.txt";
-    std::string fileWithOutput = "output.txt";
-
     std::vector<std::string> input = {
             "ALLAH AKBAR    !!!!",
             "CAN U  F   EEL                 MY heArt   ??",
@@ -220,46 +108,5 @@ TEST(FirstLabTests, ComplexTest) {
             " ef ef se rf3 ra d",
             " f 3 fkjh iu2 7 8e7 3e i g328 72e",
     };
-
-    auto toInputFile = std::ofstream(fileWithInput);
-
-    for(std::string line : input) {
-        toInputFile << line + '\n';
-    }
-    toInputFile.close();
-
-
-    std::ifstream inFile;
-    inFile.open(fileWithInput);
-
-    auto outFile = std::ofstream(fileWithOutput);
-
-
-
-    ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
-
-
-    ASSERT_TRUE(outFile.good());
-
-    inFile.close();
-    outFile.close();
-    
-    auto fromOutFile = std::ifstream(fileWithOutput);
-
-    std::string result;
-
-    for(std::string expectation : expectedOutput) {
-        std::getline(fromOutFile, result);
-        EXPECT_EQ(result, expectation);
-    }
-    fromOutFile.close();
-
-    auto removeIfExists = [](std::string path) {
-        if(fs::exists(path)) {
-            fs::remove(path);
-        }
-    };
-
-    removeIfExists(fileWithInput);
-    removeIfExists(fileWithOutput);
+    TestParent(input, expectedOutput);
 }

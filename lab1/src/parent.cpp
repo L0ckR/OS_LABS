@@ -4,8 +4,6 @@
 void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2, std::istream & streamIn, std::ostream & streamOut ){
     std::cin.rdbuf(streamIn.rdbuf());
     std::cout.rdbuf(streamOut.rdbuf());
-    
-    Exec(pathToChild1);
 
     int CHILD2_STDOUT[2];
     CreatePipe(CHILD2_STDOUT);
@@ -22,7 +20,6 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
 
     if (pid == pid_t(0)){
         //start of child1 process
-        std::cout << pid << " child1" << std::endl;
         close(CHILD1_STDIN[WRITE_END]);
         close(CHILD2_STDOUT[READ_END]);
         close(CHILD2_STDOUT[WRITE_END]);
@@ -41,7 +38,6 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
         //end of child1 process
     }
     else if (pid2 == pid_t(0)){
-        std::cout << pid2 << " child2" << std::endl;
         //start of child2 process
         close(CHILD1_STDIN[WRITE_END]);
         close(CHILD1_STDIN[READ_END]);
@@ -61,11 +57,10 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
         //end of child2 process
     }
     else{
-        close(CHILD1_STDIN[WRITE_END]);
+        close(CHILD2_STDOUT[WRITE_END]);
         close(CHILD1_STDIN[READ_END]);
         close(pipeBetween[WRITE_END]);
         close(pipeBetween[READ_END]);
-        std::cout << pid << " parent " << pid2 << std::endl;
 
         std::string line;
         while(std::getline(std::cin, line)){
@@ -85,6 +80,7 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
         }
 
         close(CHILD2_STDOUT[READ_END]);
+        return;
         //exit(EXIT_SUCCESS); успешный выход из процесса будет осуществлятьcя в main.cpp
     }
 }
