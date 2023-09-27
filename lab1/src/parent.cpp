@@ -1,7 +1,7 @@
 #include <parent.hpp>
 
 
-void parentProcess(std::string pathToChild, std::istream & streamIn, std::ostream & streamOut ){
+void parentProcess(std::string_view pathToChild, std::istream & streamIn, std::ostream & streamOut ){
     std::cin.rdbuf(streamIn.rdbuf());
     std::cout.rdbuf(streamOut.rdbuf());
     
@@ -29,7 +29,7 @@ void parentProcess(std::string pathToChild, std::istream & streamIn, std::ostrea
             exit(EXIT_FAILURE);
         }   
         
-        exec(pathToChild);
+        exec(std::string(pathToChild));
     }
     else{
         close(CHILD_STDIN[READ_END]);
