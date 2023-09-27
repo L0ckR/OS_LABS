@@ -9,7 +9,183 @@
 namespace fs = std::filesystem;
 
 
-TEST(FirstLabTests, SimpleTest) {
+TEST(FirstLabTests, EmptyTest) {
+    std::string fileWithInput = "input.txt";
+    std::string fileWithOutput = "output.txt";
+
+    std::vector<std::string> input = {
+            ""
+    };
+
+    std::vector<std::string> expectedOutput = {
+            ""
+    };
+
+    auto toInputFile = std::ofstream(fileWithInput);
+
+    for(std::string line : input) {
+        toInputFile << line + '\n';
+    }
+    toInputFile.close();
+
+
+    std::ifstream inFile;
+    inFile.open(fileWithInput);
+
+    auto outFile = std::ofstream(fileWithOutput);
+
+
+
+    parentProcess("../lab1/child", inFile, outFile);
+
+
+    ASSERT_TRUE(outFile.good());
+
+    inFile.close();
+    outFile.close();
+    
+    auto fromOutFile = std::ifstream(fileWithOutput);
+
+    std::string result;
+
+    for(std::string expectation : expectedOutput) {
+        std::getline(fromOutFile, result);
+        EXPECT_EQ(result, expectation);
+    }
+    fromOutFile.close();
+
+    auto removeIfExists = [](std::string path) {
+        if(fs::exists(path)) {
+            fs::remove(path);
+        }
+    };
+
+    removeIfExists(fileWithInput);
+    removeIfExists(fileWithOutput);
+}
+
+
+TEST(FirstLabTests, SpacesTest) {
+    std::string fileWithInput = "input.txt";
+    std::string fileWithOutput = "output.txt";
+
+    std::vector<std::string> input = {
+            "                ",
+            "          ",
+            "                "
+    };
+
+    std::vector<std::string> expectedOutput = {
+            " ",
+            " ",
+            " "
+    };
+
+    auto toInputFile = std::ofstream(fileWithInput);
+
+    for(std::string line : input) {
+        toInputFile << line + '\n';
+    }
+    toInputFile.close();
+
+
+    std::ifstream inFile;
+    inFile.open(fileWithInput);
+
+    auto outFile = std::ofstream(fileWithOutput);
+
+
+
+    parentProcess("../lab1/child", inFile, outFile);
+
+
+    ASSERT_TRUE(outFile.good());
+
+    inFile.close();
+    outFile.close();
+    
+    auto fromOutFile = std::ifstream(fileWithOutput);
+
+    std::string result;
+
+    for(std::string expectation : expectedOutput) {
+        std::getline(fromOutFile, result);
+        EXPECT_EQ(result, expectation);
+    }
+    fromOutFile.close();
+
+    auto removeIfExists = [](std::string path) {
+        if(fs::exists(path)) {
+            fs::remove(path);
+        }
+    };
+
+    removeIfExists(fileWithInput);
+    removeIfExists(fileWithOutput);
+}
+
+TEST(FirstLabTests, OneCharTest) {
+    std::string fileWithInput = "input.txt";
+    std::string fileWithOutput = "output.txt";
+
+    std::vector<std::string> input = {
+            "                H",
+            "      H    ",
+            "h                "
+    };
+
+    std::vector<std::string> expectedOutput = {
+            " h",
+            " h ",
+            "h "
+    };
+
+    auto toInputFile = std::ofstream(fileWithInput);
+
+    for(std::string line : input) {
+        toInputFile << line + '\n';
+    }
+    toInputFile.close();
+
+
+    std::ifstream inFile;
+    inFile.open(fileWithInput);
+
+    auto outFile = std::ofstream(fileWithOutput);
+
+
+
+    parentProcess("../lab1/child", inFile, outFile);
+
+
+    ASSERT_TRUE(outFile.good());
+
+    inFile.close();
+    outFile.close();
+    
+    auto fromOutFile = std::ifstream(fileWithOutput);
+
+    std::string result;
+
+    for(std::string expectation : expectedOutput) {
+        std::getline(fromOutFile, result);
+        EXPECT_EQ(result, expectation);
+    }
+    fromOutFile.close();
+
+    auto removeIfExists = [](std::string path) {
+        if(fs::exists(path)) {
+            fs::remove(path);
+        }
+    };
+
+    removeIfExists(fileWithInput);
+    removeIfExists(fileWithOutput);
+}
+
+
+
+TEST(FirstLabTests, ComplexTest) {
     std::string fileWithInput = "input.txt";
     std::string fileWithOutput = "output.txt";
 
