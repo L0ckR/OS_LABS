@@ -28,7 +28,7 @@ void TestParent(std::vector<std::string> input, std::vector<std::string> expecte
         std::getline(outFile, result);
         EXPECT_EQ(result, expectation);
     }
-
+    
 }
 
 
@@ -106,7 +106,7 @@ TEST(FirstLabTests, ComplexTest) {
             "lkh wdwi gwd ",
             "brgtrfsfs a j wfe f a whwdu 3d3d ",
             " ef ef se rf3 ra d",
-            " f 3 fkjh iu2 7 8e7 3e i g328 72e",
+            " f 3 fkjh iu2 7 8e7 3e i g328 72e"
     };
     TestParent(input, expectedOutput);
 }
