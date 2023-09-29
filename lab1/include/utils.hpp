@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INC_1_UTILS_H
-#define INC_1_UTILS_H
-
 #include <sstream>
 #include <algorithm>
 #include <sys/wait.h>
@@ -21,6 +18,3 @@ void                CreatePipe(int pipeFd[2]);
 pid_t               CreateChild();
 void                Exec(std::string_view pathToChild);
 std::stringstream   ReadFromPipe(int file_descriptor);
-
-
-#endif //INC_1_UTILS_H
