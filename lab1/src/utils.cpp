@@ -26,12 +26,29 @@ void Exec(std::string_view pathToChild){
 }
 
 
-std::stringstream ReadFromPipe (int file_descriptor)
-{
-  __gnu_cxx::stdio_filebuf<char> filebuf(file_descriptor, std::ios_base::in);
+std::stringstream ReadFromPipe (int file_descriptor){   
+    std::stringstream stream;
+    
+    char ch;
 
-  std::stringstream stream;
+    while (1){
+        int state = read(file_descriptor, &ch, sizeof(char));
+        if (state > 0){
+            stream << ch;
+        }else if (state == 0){
+            return stream;
+        }else{
+            perror("Read fail");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+//   ЗАПРЕТНАЯ РЕАЛИЗАЦИЯ
+//   __gnu_cxx::stdio_filebuf<char> filebuf(file_descriptor, std::ios_base::in);
+
+//   std::stringstream stream;
   
-  stream << &filebuf;
-  return stream;
+//   stream << &filebuf;
+//   return stream;
+
 }
