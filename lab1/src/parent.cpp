@@ -70,9 +70,6 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
         close(CHILD1_STDIN[WRITE_END]);
 
 
-
-        wait(NULL);
-
         std::stringstream output = ReadFromPipe(CHILD2_STDOUT[READ_END]);
 
         while(std::getline(output, line)){

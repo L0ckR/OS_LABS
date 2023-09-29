@@ -1,4 +1,4 @@
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 
 add_executable(lab1 main.cpp src/parent.cpp src/utils.cpp include/utils.hpp)
