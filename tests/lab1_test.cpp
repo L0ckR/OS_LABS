@@ -19,9 +19,7 @@ void TestParent(std::vector<std::string> input, std::vector<std::string> expecte
     std::string strSum;
     std::stringstream inFile(std::accumulate(input.begin(), input.end(), strSum, BindTwoStrings()));
 
-    std::string out = "";
-
-    std::stringstream outFile(out);
+    std::stringstream outFile;
 
     // выдает segfault в тестирующей оболочке vscode если затребоать переменную окружения
     ASSERT_TRUE(fs::exists(getenv("PATH_TO_CHILD1")));
