@@ -2,9 +2,6 @@
 
 
 void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2, std::istream & streamIn, std::ostream & streamOut ){
-    std::streambuf* oldInBuf = std::cin.rdbuf(streamIn.rdbuf());
-    std::streambuf* oldOutBuf = std::cout.rdbuf(streamOut.rdbuf());
-
     int CHILD2_STDOUT[2];
     CreatePipe(CHILD2_STDOUT);
 
@@ -63,7 +60,7 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
         close(pipeBetween[READ_END]);
 
         std::string line;
-        while(std::getline(std::cin, line)){
+        while(std::getline(streamIn, line)){
             line += "\n";
             write(CHILD1_STDIN[WRITE_END], line.c_str(), line.length());
         }
@@ -73,13 +70,10 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
         std::stringstream output = ReadFromPipe(CHILD2_STDOUT[READ_END]);
 
         while(std::getline(output, line)){
-            std::cout << line << std::endl;
+            streamOut << line << std::endl;
         }
 
         close(CHILD2_STDOUT[READ_END]);
-
-        std::cin.rdbuf(oldInBuf);
-        std::cout.rdbuf(oldOutBuf);
         return;
         //exit(EXIT_SUCCESS); успешный выход из процесса будет осуществлятьcя в main.cpp
     }

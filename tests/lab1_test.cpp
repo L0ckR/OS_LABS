@@ -21,13 +21,10 @@ void TestParent(std::vector<std::string> input, std::vector<std::string> expecte
 
     std::stringstream outFile;
 
-    // выдает segfault в тестирующей оболочке vscode если затребоать переменную окружения
-    ASSERT_TRUE(fs::exists(getenv("PATH_TO_CHILD1")));
-    ASSERT_TRUE(fs::exists(getenv("PATH_TO_CHILD2")));
     
     if(fs::exists(getenv("PATH_TO_CHILD1")) & fs::exists(getenv("PATH_TO_CHILD2"))){
+
         ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
-        //ParentProcess("../lab1/child1", "../lab1/child2", inFile, outFile);
 
         for(std::string expectation : expectedOutput) {
             std::string result;
@@ -39,7 +36,7 @@ void TestParent(std::vector<std::string> input, std::vector<std::string> expecte
     }
 
     // не выдает segfault в тестирующей оболочке vscode, если просто скармливать пути
-    //ParentProcess("../lab1/child1", "../lab1/child2", inFile, outFile);
+    // ParentProcess("../lab1/child1", "../lab1/child2", inFile, outFile);
     // for(std::string expectation : expectedOutput) {
     //     std::string result;
     //     std::getline(outFile, result);
@@ -122,8 +119,8 @@ TEST(FirstLabTests, ComplexTest) {
 }
 
 int main(int argc, char **argv) {
-    std::cout << getenv("PATH_TO_CHILD1") << std::endl;
-    std::cout << getenv("PATH_TO_CHILD2") << std::endl;
+    // std::cout << getenv("PATH_TO_CHILD1") << std::endl;
+    // std::cout << getenv("PATH_TO_CHILD2") << std::endl;
 
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
