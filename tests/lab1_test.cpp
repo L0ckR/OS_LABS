@@ -13,7 +13,7 @@ struct BindTwoStrings
      
 };
 
-void TestParent(const std::vector<std::string> & input, std::vector<std::string> & expectedOutput){
+void TestParent(const std::vector<std::string> & input, const std::vector<std::string> & expectedOutput){
     std::string strSum;
     std::stringstream inFile(std::accumulate(input.begin(), input.end(), strSum,[&](const std::string & s1, const std::string & s2){
                                                                                     return s1.empty() ? s2 : s1 + "\n" + s2;
@@ -22,7 +22,7 @@ void TestParent(const std::vector<std::string> & input, std::vector<std::string>
     std::stringstream outFile;
 
     
-    if(fs::exists(getenv("PATH_TO_CHILD1")) & fs::exists(getenv("PATH_TO_CHILD2"))){
+    if(fs::exists(getenv("PATH_TO_CHILD1")) && fs::exists(getenv("PATH_TO_CHILD2"))){
 
         ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
 
@@ -46,11 +46,11 @@ void TestParent(const std::vector<std::string> & input, std::vector<std::string>
 
 
 TEST(FirstLabTests, EmptyTest) {
-    std::vector<std::string> input = {
+    const std::vector<std::string> input = {
             ""
     };
 
-    std::vector<std::string> expectedOutput = {
+    const std::vector<std::string> expectedOutput = {
             ""
     };
     TestParent(input, expectedOutput);
@@ -58,13 +58,13 @@ TEST(FirstLabTests, EmptyTest) {
 
 
 TEST(FirstLabTests, SpacesTest) {
-    std::vector<std::string> input = {
+    const std::vector<std::string> input = {
             "                ",
             "          ",
             "                "
     };
 
-    std::vector<std::string> expectedOutput = {
+    const std::vector<std::string> expectedOutput = {
             " ",
             " ",
             " "
@@ -73,13 +73,13 @@ TEST(FirstLabTests, SpacesTest) {
 }
 
 TEST(FirstLabTests, OneCharTest) {
-    std::vector<std::string> input = {
+    const std::vector<std::string> input = {
             "                H",
             "      H    ",
             "h                "
     };
 
-    std::vector<std::string> expectedOutput = {
+    const std::vector<std::string> expectedOutput = {
             " h",
             " h ",
             "h "
@@ -90,7 +90,7 @@ TEST(FirstLabTests, OneCharTest) {
 
 
 TEST(FirstLabTests, ComplexTest) {
-    std::vector<std::string> input = {
+    const std::vector<std::string> input = {
             "ALLAH AKBAR    !!!!"                               ,
             "CAN U  F   EEL                 MY heArt   ??"      ,
             "SOmEboDy onCE    tOlD Me...   "                    ,
@@ -103,7 +103,7 @@ TEST(FirstLabTests, ComplexTest) {
             "lkH WDWi gwd "                                     
     };
 
-    std::vector<std::string> expectedOutput = {
+    const std::vector<std::string> expectedOutput = {
             "allah akbar !!!!"                                  ,
             "can u f eel my heart ??"                           ,
             "somebody once told me... "                         ,
