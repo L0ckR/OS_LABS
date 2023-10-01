@@ -2,12 +2,11 @@
 
 
 pid_t CreateChild(){
-    pid_t pid = fork();
-    if( pid < 0 ){
-        std::perror("Couldn't create child.");
-        exit(EXIT_FAILURE);
+    if(pid_t pid = fork(); pid >= 0) {
+        return pid;
     }
-    return pid;
+    std::perror("Couldn't create child.");
+    exit(EXIT_FAILURE);   
 }
 
 
