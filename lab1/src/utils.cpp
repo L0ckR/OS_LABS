@@ -27,13 +27,12 @@ void Exec(const char * pathToChild){
 
 std::stringstream ReadFromPipe (int file_descriptor){   
     std::stringstream stream;
-    
-    char ch;
 
     while (1){
-        int state = read(file_descriptor, &ch, sizeof(char));
+        unsigned char buf[256] = "";
+        ssize_t state = read(file_descriptor, &buf, 256UL);
         if (state > 0){
-            stream << ch;
+            stream << buf;
         }else if (state == 0){
             return stream;
         }else{
