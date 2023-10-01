@@ -10,14 +10,14 @@ namespace fs = std::filesystem;
 
 struct BindTwoStrings
 {
-    std::string operator()(const std::string & s1, const std::string & s2) const {
-        return s1.empty() ? s2 : s1 + "\n" + s2;
-    }    
+     
 };
 
-void TestParent(std::vector<std::string> input, std::vector<std::string> expectedOutput){
+void TestParent(const std::vector<std::string> & input, std::vector<std::string> & expectedOutput){
     std::string strSum;
-    std::stringstream inFile(std::accumulate(input.begin(), input.end(), strSum, BindTwoStrings()));
+    std::stringstream inFile(std::accumulate(input.begin(), input.end(), strSum,[&](const std::string & s1, const std::string & s2){
+                                                                                    return s1.empty() ? s2 : s1 + "\n" + s2;
+                                                                                }));
 
     std::stringstream outFile;
 
@@ -26,7 +26,7 @@ void TestParent(std::vector<std::string> input, std::vector<std::string> expecte
 
         ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
 
-        for(std::string expectation : expectedOutput) {
+        for(const std::string & expectation : expectedOutput) {
             std::string result;
             std::getline(outFile, result);
             EXPECT_EQ(result, expectation);
@@ -119,9 +119,6 @@ TEST(FirstLabTests, ComplexTest) {
 }
 
 int main(int argc, char **argv) {
-    // std::cout << getenv("PATH_TO_CHILD1") << std::endl;
-    // std::cout << getenv("PATH_TO_CHILD2") << std::endl;
-
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
