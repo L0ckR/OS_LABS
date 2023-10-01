@@ -74,7 +74,6 @@ void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::is
         }
 
         close(CHILD2_STDOUT[READ_END]);
-        return;
         //exit(EXIT_SUCCESS); успешный выход из процесса будет осуществлятьcя в main.cpp
     }
 }

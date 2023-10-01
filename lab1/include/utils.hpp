@@ -16,5 +16,5 @@ enum PipeEnd {
 
 void                CreatePipe(int pipeFd[2]);
 pid_t               CreateChild();
-void                Exec(std::string_view pathToChild);
+void                Exec(const char * pathToChild);
 std::stringstream   ReadFromPipe(int file_descriptor);

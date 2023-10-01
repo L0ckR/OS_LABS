@@ -2,4 +2,4 @@
 
 #include <utils.hpp>
 
-void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2, std::istream & streamIn, std::ostream & streamOut);
+void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::istream & streamIn, std::ostream & streamOut);

@@ -100,7 +100,12 @@ TEST(FirstLabTests, ComplexTest) {
             " "                                                 ,
             ""                                                  ,
             "liue Hi uHIUHi h#IUD H"                            ,
-            "lkH WDWi gwd "                                     
+            "lkH WDWi gwd "                                     ,     
+            "yyyyyy yyyy"                                       ,  
+            "yyyyyy yyyy"                                       ,   
+            "yyyyyy yyyy"                                       ,   
+            "yyyyyy yyyy"                                       ,   
+            "yyyyyy yyyy"                                       ,                        
     };
 
     const std::vector<std::string> expectedOutput = {
@@ -113,7 +118,12 @@ TEST(FirstLabTests, ComplexTest) {
             " "                                                 ,
             ""                                                  , 
             "liue hi uhiuhi h#iud h"                            ,
-            "lkh wdwi gwd "                                     
+            "lkh wdwi gwd "                                     ,
+            "yyyyyy yyyy"                                       ,  
+            "yyyyyy yyyy"                                       ,   
+            "yyyyyy yyyy"                                       ,   
+            "yyyyyy yyyy"                                       ,   
+            "yyyyyy yyyy"                                       , 
     };
     TestParent(input, expectedOutput);
 }
