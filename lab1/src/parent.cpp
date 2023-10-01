@@ -2,11 +2,11 @@
 
 
 void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::istream & streamIn, std::ostream & streamOut ){
-    int CHILD2_STDOUT[2];
-    CreatePipe(CHILD2_STDOUT);
+    int child1In[2];
+    CreatePipe(child1In);
 
-    int CHILD1_STDIN[2];
-    CreatePipe(CHILD1_STDIN);
+    int child2Out[2];
+    CreatePipe(child2Out);
 
     int pipeBetween[2];
     CreatePipe(pipeBetween);
@@ -17,12 +17,12 @@ void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::is
 
     if (pid == pid_t(0)){
         //start of child1 process
-        close(CHILD1_STDIN[WRITE_END]);
-        close(CHILD2_STDOUT[READ_END]);
-        close(CHILD2_STDOUT[WRITE_END]);
+        close(child2Out[WRITE_END]);
+        close(child1In[READ_END]);
+        close(child1In[WRITE_END]);
         close(pipeBetween[READ_END]);
       
-        if (dup2(CHILD1_STDIN[READ_END], STDIN_FILENO) == -1){
+        if (dup2(child2Out[READ_END], STDIN_FILENO) == -1){
             perror("dup2 error");
             exit(EXIT_FAILURE);
         }
@@ -36,17 +36,17 @@ void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::is
     }
     else if (pid2 == pid_t(0)){
         //start of child2 process
-        close(CHILD1_STDIN[WRITE_END]);
-        close(CHILD1_STDIN[READ_END]);
+        close(child2Out[WRITE_END]);
+        close(child2Out[READ_END]);
         close(pipeBetween[WRITE_END]);
-        close(CHILD2_STDOUT[READ_END]);
+        close(child1In[READ_END]);
       
         if (dup2(pipeBetween[READ_END], STDIN_FILENO) == -1){
             perror("dup2 error");
             exit(EXIT_FAILURE);
         }
 
-        if (dup2(CHILD2_STDOUT[WRITE_END], STDOUT_FILENO) == -1){
+        if (dup2(child1In[WRITE_END], STDOUT_FILENO) == -1){
             perror("dup2 error");
             exit(EXIT_FAILURE);
         }   
@@ -54,26 +54,26 @@ void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::is
         //end of child2 process
     }
     else{
-        close(CHILD2_STDOUT[WRITE_END]);
-        close(CHILD1_STDIN[READ_END]);
+        close(child1In[WRITE_END]);
+        close(child2Out[READ_END]);
         close(pipeBetween[WRITE_END]);
         close(pipeBetween[READ_END]);
 
         std::string line;
         while(std::getline(streamIn, line)){
             line += "\n";
-            write(CHILD1_STDIN[WRITE_END], line.c_str(), line.size());
+            write(child2Out[WRITE_END], line.c_str(), line.size());
         }
-        close(CHILD1_STDIN[WRITE_END]);
+        close(child2Out[WRITE_END]);
 
 
-        std::stringstream output = ReadFromPipe(CHILD2_STDOUT[READ_END]);
+        std::stringstream output = ReadFromPipe(child1In[READ_END]);
 
         while(std::getline(output, line)){
             streamOut << line << std::endl;
         }
 
-        close(CHILD2_STDOUT[READ_END]);
+        close(child1In[READ_END]);
         //exit(EXIT_SUCCESS); успешный выход из процесса будет осуществлятьcя в main.cpp
     }
 }
