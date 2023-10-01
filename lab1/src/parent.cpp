@@ -62,7 +62,7 @@ void ParentProcess(std::string_view pathToChild1, std::string_view pathToChild2,
         std::string line;
         while(std::getline(streamIn, line)){
             line += "\n";
-            write(CHILD1_STDIN[WRITE_END], line.c_str(), line.length());
+            write(CHILD1_STDIN[WRITE_END], line.c_str(), line.size());
         }
         close(CHILD1_STDIN[WRITE_END]);
 
