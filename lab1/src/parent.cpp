@@ -12,10 +12,12 @@ void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::is
     CreatePipe(pipeBetween);
 
 
-    pid_t pid = CreateChild();
-    pid_t pid2 = CreateChild();
-
+    pid_t pid = CreateChild(), pid2 = -1;
     if (pid == pid_t(0)){
+        pid2 = CreateChild();
+    }
+
+    if (pid2 == pid_t(0)){
         //start of child1 process
         close(child2Out[WRITE_END]);
         close(child1In[READ_END]);
@@ -34,7 +36,7 @@ void ParentProcess(const char * pathToChild1, const char * pathToChild2, std::is
         Exec(pathToChild1);
         //end of child1 process
     }
-    else if (pid2 == pid_t(0)){
+    else if (pid2 > pid_t(0)){
         //start of child2 process
         close(child2Out[WRITE_END]);
         close(child2Out[READ_END]);
