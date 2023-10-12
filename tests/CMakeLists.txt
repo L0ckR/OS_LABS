@@ -28,9 +28,12 @@ add_test(lab1_test lab1_test)
 
 #add LAB2
 
+# find_package(Threads REQUIRED)
+
 add_executable(lab2_test lab2_test.cpp ../lab2/src/monte-carlo.cpp ../lab2/include/monte-carlo.hpp)
 
 target_link_libraries(lab2_test PRIVATE GTest::GTest)
+# target_link_libraries(lab2_test PRIVATE Threads::Threads)
 target_include_directories(lab2_test PRIVATE ../lab2/include)
 
 add_test(lab2_test lab2_test)
