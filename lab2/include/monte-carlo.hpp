@@ -9,23 +9,22 @@
 #include <cmath>
 #include <ctime>
 
-#define _USE_MATH_DEFINES
-
-typedef struct args{
+struct Args{
     double radius = 0;
     size_t dotsPerThread = 0;
-    unsigned * seed = nullptr;
-} Args;
+    std::atomic<size_t> * dotsInCircle = nullptr;
+    unsigned seed = time(nullptr);
+};
 
 typedef struct{
     double x = 0;
     double y = 0;
-}Coordinats;
+}Coordinates;
 
-bool IsInCircle(const Coordinats &cords, const double radius);
+bool IsInCircle(const Coordinates &cords, double radius);
 
-Coordinats CreateRandCoord(const double radius, unsigned int * seed);
+Coordinates CreateRandCoord(double radius, unsigned int * seed);
 
 void *task(void *input);
 
-double CircleArea(const size_t threadQuantity, const double radius, const size_t dotsQuantity);
+double CircleArea(size_t threadQuantity, double radius, size_t dotsQuantity);

@@ -1,18 +1,15 @@
 #include <monte-carlo.hpp>
 
-std::atomic<size_t> dotsInCircle {0};
 
-bool IsInCircle(const Coordinats &cords, const double radius)
+
+bool IsInCircle(const Coordinates &cords, double radius)
 {
-    // if ((cords.x > radius) || (cords.y > radius)){
-    //     return false;                                        // нет необходимости т.к. точки генерируются от -radius до radius
-    // }
     return (cords.x * cords.x + cords.y * cords.y) <= radius * radius;
 }
 
-Coordinats CreateRandCoord(const double radius, unsigned int *seed)
+Coordinates CreateRandCoord(double radius, unsigned int *seed)
 {
-    const Coordinats cords = {
+    Coordinates cords = {
         (double)rand_r(seed) / (RAND_MAX / radius),
         (double)rand_r(seed) / (RAND_MAX / radius)};
     return cords;
@@ -20,25 +17,25 @@ Coordinats CreateRandCoord(const double radius, unsigned int *seed)
 
 void *task(void *input)
 {
+    const auto args = reinterpret_cast<Args *>(input);
     size_t counter = 0;
-    for (size_t i = 0; i < (reinterpret_cast<Args *>(input))->dotsPerThread; i++)
+    for (size_t i = 0; i < args->dotsPerThread; i++)
     {
-        if (IsInCircle(CreateRandCoord((reinterpret_cast<Args *>(input))->radius, (reinterpret_cast<Args *>(input))->seed), (reinterpret_cast<Args *>(input))->radius))
+        if (IsInCircle(CreateRandCoord(args->radius, &args->seed), args->radius))
         {
             counter++;
         }
     }
-    delete (reinterpret_cast<Args *>(input))->seed;
-    dotsInCircle.fetch_add(counter, std::memory_order_relaxed);
-    pthread_exit(0);
+    (*args->dotsInCircle).fetch_add(counter);
+    return nullptr;
 }
 
-double CircleArea(const size_t threadQuantity, const double radius, const size_t dotsQuantity)
+double CircleArea(size_t threadQuantity, double radius, size_t dotsQuantity)
 {
+    std::atomic<size_t> dotsInCircle {0};
     double result = 0;
     if (threadQuantity >= 1)
     {
-        time_t currentTime = time(nullptr);
         const size_t actualThreadQuantity = std::min(threadQuantity, dotsQuantity);
         std::vector<pthread_t> threads(actualThreadQuantity);
 
@@ -50,8 +47,8 @@ double CircleArea(const size_t threadQuantity, const double radius, const size_t
         {   
             argsForThread[i].radius = radius;
             argsForThread[i].dotsPerThread = dotsPerThread;
-            argsForThread[i].seed = new unsigned int;
-            *argsForThread[i].seed = currentTime + i;
+            argsForThread[i].dotsInCircle = &dotsInCircle;
+            argsForThread[i].seed += i;
             if ((i + 1) * dotsPerThread >= dotsQuantity)
             {
                 argsForThread[i].dotsPerThread = dotsQuantity - i * dotsPerThread;
@@ -77,7 +74,7 @@ double CircleArea(const size_t threadQuantity, const double radius, const size_t
         {
             if (IsInCircle(CreateRandCoord(radius, &seed), radius))
             {
-                dotsInCircleSingle++;
+                ++dotsInCircleSingle;
             }
         }
         result = ((double)dotsInCircleSingle / dotsQuantity);
