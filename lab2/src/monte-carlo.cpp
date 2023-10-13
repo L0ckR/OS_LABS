@@ -7,26 +7,28 @@ bool IsInCircle(const Coordinates &cords, double radius)
     return (cords.x * cords.x + cords.y * cords.y) <= radius * radius;
 }
 
-Coordinates CreateRandCoord(double radius, unsigned int *seed)
+Coordinates CreateRandCoord(double radius, unsigned int &seed)
 {
     Coordinates cords = {
-        (double)rand_r(seed) / (RAND_MAX / radius),
-        (double)rand_r(seed) / (RAND_MAX / radius)};
+        (double)rand_r(&seed) / (RAND_MAX / radius),
+        (double)rand_r(&seed) / (RAND_MAX / radius)};
     return cords;
 }
 
 void *task(void *input)
 {
-    const auto args = reinterpret_cast<Args *>(input);
+    const auto &args = *(reinterpret_cast<Args *>(input));
+    unsigned int seed = args.seed;
     size_t counter = 0;
-    for (size_t i = 0; i < args->dotsPerThread; i++)
+    for (size_t i = 0; i < args.dotsPerThread; i++)
     {
-        if (IsInCircle(CreateRandCoord(args->radius, &args->seed), args->radius))
+
+        if (IsInCircle(CreateRandCoord(args.radius, seed), args.radius))
         {
             counter++;
         }
     }
-    (*args->dotsInCircle).fetch_add(counter);
+    (*args.dotsInCircle).fetch_add(counter);
     return nullptr;
 }
 
@@ -72,7 +74,7 @@ double CircleArea(size_t threadQuantity, double radius, size_t dotsQuantity)
         unsigned int seed = (unsigned)time(nullptr);
         for (size_t i = 0; i < dotsQuantity; i++)
         {
-            if (IsInCircle(CreateRandCoord(radius, &seed), radius))
+            if (IsInCircle(CreateRandCoord(radius, seed), radius))
             {
                 ++dotsInCircleSingle;
             }

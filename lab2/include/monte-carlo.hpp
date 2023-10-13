@@ -16,14 +16,14 @@ struct Args{
     unsigned seed = time(nullptr);
 };
 
-typedef struct{
+struct Coordinates{
     double x = 0;
     double y = 0;
-}Coordinates;
+};
 
 bool IsInCircle(const Coordinates &cords, double radius);
 
-Coordinates CreateRandCoord(double radius, unsigned int * seed);
+Coordinates CreateRandCoord(double radius, unsigned int &seed);
 
 void *task(void *input);
 
