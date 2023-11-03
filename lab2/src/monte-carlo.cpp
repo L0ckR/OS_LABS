@@ -25,7 +25,7 @@ void *task(void *input)
 
         if (IsInCircle(CreateRandCoord(args.radius, seed), args.radius))
         {
-            counter++;
+            ++counter;
         }
     }
     (*args.dotsInCircle).fetch_add(counter);

@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
     std::cout.precision(15);
     std::cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
 
-    long threadQuantity = strtol(argv[1], nullptr, 10);
+    unsigned long threadQuantity = std::atol(argv[1]);
 
     double radius;
     size_t dotsQuantity;
