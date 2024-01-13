@@ -8,6 +8,11 @@
 
 namespace fs = std::filesystem;
 
+struct BindTwoStrings
+{
+     
+};
+
 void TestParent(const std::vector<std::string> & input, const std::vector<std::string> & expectedOutput){
     std::string strSum;
     std::stringstream inFile(std::accumulate(input.begin(), input.end(), strSum,[&](const std::string & s1, const std::string & s2){
@@ -15,19 +20,18 @@ void TestParent(const std::vector<std::string> & input, const std::vector<std::s
                                                                                 }));
 
     std::stringstream outFile;
-
+    ASSERT_TRUE(getenv("PATH_TO_FM_CHILD1"));
+    ASSERT_TRUE(getenv("PATH_TO_FM_CHILD2"));       
     
-    if(fs::exists(getenv("PATH_TO_CHILD1")) && fs::exists(getenv("PATH_TO_CHILD2"))){
+    ASSERT_TRUE(fs::exists(getenv("PATH_TO_FM_CHILD1")));
+    ASSERT_TRUE(fs::exists(getenv("PATH_TO_FM_CHILD2")));
 
-        ParentProcess(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile, outFile);
+    ParentProcess(getenv("PATH_TO_FM_CHILD1"), getenv("PATH_TO_FM_CHILD2"), inFile, outFile);
 
-        for(const std::string & expectation : expectedOutput) {
-            std::string result;
-            std::getline(outFile, result);
-            EXPECT_EQ(result, expectation);
-        }
-    }else{
-        std::cout << "ENV VAR NOT EXIST" << std::endl;
+    for(const std::string & expectation : expectedOutput) {
+        std::string result;
+        std::getline(outFile, result);
+        EXPECT_EQ(result, expectation);
     }
 
     // не выдает segfault в тестирующей оболочке vscode, если просто скармливать пути
