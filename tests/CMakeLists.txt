@@ -60,8 +60,13 @@ add_executable(lab3_test lab3_test.cpp ../lab3/src/parent.cpp ../lab3/include/pa
 target_link_libraries(lab3_test PRIVATE GTest::GTest)
 target_include_directories(lab3_test PRIVATE ../lab3/include)
 
-add_test(lab1_test lab1_test)
-add_test(lab2_test lab2_test)
-add_test(lab3_test lab3_test)
+#add LAB4
+add_executable(lab4_test1 lab4_test1.cpp ../lab4/include/implementations.hpp 
+        ../lab4/src/implementation1.cpp)
+target_link_libraries(lab4_test1 PRIVATE GTest::GTest)
+target_include_directories(lab4_test1 PRIVATE ../lab4/include)
 
-add_test(lab2_test lab2_test)
+add_executable(lab4_test2 lab4_test2.cpp ../lab4/include/implementations.hpp 
+        ../lab4/src/implementation2.cpp)
+target_link_libraries(lab4_test2 PRIVATE GTest::GTest)
+target_include_directories(lab4_test2 PRIVATE ../lab4/include)
