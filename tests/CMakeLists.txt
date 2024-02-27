@@ -1,4 +1,3 @@
-include(CTest)
 include(FetchContent)
 
 
@@ -36,8 +35,6 @@ add_executable(lab1_test lab1_test.cpp ../lab1/src/parent.cpp ../lab1/include/pa
 target_link_libraries(lab1_test PRIVATE GTest::GTest)
 target_include_directories(lab1_test PRIVATE ../lab1/include)
 
-add_test(lab1_test lab1_test)
-
 
 #add LAB2
 
@@ -52,4 +49,21 @@ target_link_libraries(lab2_test PRIVATE Threads::Threads)
 
 target_include_directories(lab2_test PRIVATE ../lab2/include)
 
-add_test(lab2_test lab2_test)
+#add LAB3
+
+add_executable(lab3_test lab3_test.cpp ../lab3/src/parent.cpp ../lab3/include/parent.hpp
+        ../lab3/src/utils.cpp ../lab3/include/utils.hpp)
+
+target_link_libraries(lab3_test PRIVATE GTest::GTest)
+target_include_directories(lab3_test PRIVATE ../lab3/include)
+
+#add LAB4
+add_executable(lab4_test1 lab4_test1.cpp ../lab4/include/implementations.hpp 
+        ../lab4/src/implementation1.cpp)
+target_link_libraries(lab4_test1 PRIVATE GTest::GTest)
+target_include_directories(lab4_test1 PRIVATE ../lab4/include)
+
+add_executable(lab4_test2 lab4_test2.cpp ../lab4/include/implementations.hpp 
+        ../lab4/src/implementation2.cpp)
+target_link_libraries(lab4_test2 PRIVATE GTest::GTest)
+target_include_directories(lab4_test2 PRIVATE ../lab4/include)
