@@ -1,13 +1,13 @@
 #include "job_exec.hpp"
-
-#include <atomic>
+#include <filesystem>
 
 namespace cp {
 
 int TSystem::Exec(const std::string& path) {
     int pid = fork();
     if (pid == 0) {
-        if (execl(path.c_str(), "job1", nullptr) == -1) {
+        if (execl(path.c_str(), path.c_str(), nullptr) == -1) {
+            std::cout << path << std::endl;
             std::cout << "Can't exec\n";
         }
     } else if (pid == -1) {

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <thread>
+#include <atomic>
 #include <mutex>
 #include <condition_variable>
 #include <optional>
