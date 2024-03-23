@@ -3,8 +3,8 @@
 int main() {
     const char *pathToLib1 = getenv("PATH_TO_LIB1");
     const char *pathToLib2 = getenv("PATH_TO_LIB2");
-    // bash: export PATH_TO_LIB1="/home/lockr/projects/OS_labs/build/lab4/libimplementation1.so"
-    // bash: export PATH_TO_LIB2="/home/lockr/projects/OS_labs/build/lab4/libimplementation2.so"
+    // bash: export PATH_TO_LIB1="/home/lockr/projects/OS_LABS/build/lab4/liblib1.so"
+    // bash: export PATH_TO_LIB2="/home/lockr/projects/OS_LABS/build/lab4/liblib2.so"
 
     void* libraryHandle = LoadLibrary(pathToLib1);
     SinIntegralFunc SinIntegral = (SinIntegralFunc)dlsym(libraryHandle, "SinIntegral");

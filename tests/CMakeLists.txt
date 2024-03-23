@@ -1,6 +1,3 @@
-include(FetchContent)
-
-
 FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
@@ -67,3 +64,19 @@ add_executable(lab4_test2 lab4_test2.cpp ../lab4/include/implementations.hpp
         ../lab4/src/implementation2.cpp)
 target_link_libraries(lab4_test2 PRIVATE GTest::GTest)
 target_include_directories(lab4_test2 PRIVATE ../lab4/include)
+# Lab 5-7
+
+set(CMAKE_CXX_FLAGS "-lzmq")
+add_compile_options(-Wno-error=deprecated-declarations -Wdeprecated-declarations)
+
+add_executable(lab567_test lab567_test.cpp ../lab567/src/node_routine.cpp ../lab567/src/socket_routine.cpp)
+target_link_libraries(lab567_test PRIVATE GTest::GTest)
+target_include_directories(lab567_test PRIVATE ../lab567/include)
+
+target_link_libraries(lab567_test PRIVATE zmq)
+
+#add CP
+add_executable(cp_test cp_test.cpp)
+target_include_directories(cp_test PRIVATE ${CMAKE_SOURCE_DIR}/cp/include)
+target_include_directories(cp_test PRIVATE ${CMAKE_SOURCE_DIR}/cp/lib)
+target_link_libraries(cp_test PRIVATE cp_lib GTest::GTest)
